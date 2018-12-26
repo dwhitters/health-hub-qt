@@ -43,4 +43,4 @@ target_wrapper.*
 CMakeLists.txt.user*
 
 # Build directory
-Build
+bin

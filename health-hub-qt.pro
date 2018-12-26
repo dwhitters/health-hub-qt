@@ -1,7 +1,11 @@
 QT += charts
 
+INCLUDEPATH += $$PWD/include
+
 SOURCES += \
-    main.cpp
+    ./src/model.cpp \
+    ./src/view.cpp \
+    ./src/main.cpp \
 
 target.path = $$[QT_INSTALL_EXAMPLES]/charts/linechart
 INSTALLS += target
