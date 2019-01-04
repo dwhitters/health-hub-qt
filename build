@@ -1,7 +1,8 @@
 #/usr/bin/env bash
 
 # Simple build script. Artifacts are found in the bin directory.
+rm -rf bin
 mkdir bin
 cd bin
 qmake ..
-make -j16
+make -j4
