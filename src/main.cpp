@@ -7,11 +7,17 @@
 #include <QtWidgets/QApplication>
 #include "model.h"
 #include "view.h"
-#include "i2c.h"
+#include "ads1015.h"
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
-    i2cInit();
+    ADS1015 ads1015;
+
+    ads1015.SetRegister(ADS1015_CONVERSION_REG);
+    int val = ads1015.GetConversion();
+    std::cout<<"Val: "<< val << std::endl;
+
 
 //    QApplication a(argc, argv);
 //
