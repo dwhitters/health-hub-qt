@@ -12,6 +12,9 @@
 
 QT_CHARTS_USE_NAMESPACE
 
+/** The number of data points in the series. */
+#define DATA_SERIES_SIZE 10
+
 class Model
 {
     // The current data in the model.
