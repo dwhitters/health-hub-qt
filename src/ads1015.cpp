@@ -61,6 +61,11 @@ int ADS1015::GetConversion() {
     // Buffer[0] is the MSB, Buffer[1] is the LSB.
     conversion_val = buffer[0] << 4;
     conversion_val |= buffer[1] >> 4;
+    conversion_val &= 0xFFFu; // Set the top bit to zero to ensure that no negative
+
+    if((conversion_val & 0x800u) != 0) { // Sometimes the ADS gives a negative number. That manifests by us receiving a number greater than 2047.
+        conversion_val = 0;
+    }
 
     return conversion_val;
 }
@@ -100,8 +105,12 @@ ADS1015::ADS1015(void) {
     }
 
     buffer[0] = ADS1015_CONFIG_REG;
-    buffer[1] = 0x42u;
+    // Single-ended, +- 4.096V FSR, continuous conversion.
+    buffer[1] = 0x42u; 
+    // 3300SPS, disable comparator. 
     buffer[2] = 0xE3u;
 
     Write(3u); // Write the configuration to the ADC.
+
+    SetRegister(ADS1015_CONVERSION_REG); // Set the pointer register to the conversion register.
 }

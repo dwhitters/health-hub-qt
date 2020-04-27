@@ -11,6 +11,7 @@
 #include <QTimer>
 #include "model.h"
 #include "view.h"
+#include "ads1015.h"
 
 class Controller : public QObject
 {
@@ -19,6 +20,7 @@ class Controller : public QObject
     QTimer *timer;
     View view;
     Model * model;
+    ADS1015 ads1015; // The ADC module.
 
 public:
     Controller();

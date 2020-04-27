@@ -11,6 +11,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
+#include <QValueAxis>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -23,6 +24,10 @@ class View
     QChartView * chartView;
     // The window.
     QMainWindow window;
+    // The vertical axis
+    QValueAxis * y_axis;
+    // The horizontal axis
+    QValueAxis * x_axis;
 
 public:
     View();

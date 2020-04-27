@@ -5,23 +5,10 @@
     @description This is the controller of the application.
 */
 #include "controller.h"
-#include "ads1015.h"
 #include <iostream>
 
 /** The delay in ms between data points being updated on the GUI. */
-#define UPDATE_DELAY_MS 500
-
-/**
-    Initializes the ADS1015 and sets its pointer register to the conversion
-    register.
-*/
-void initAdc() {
-    ADS1015 ads1015;
-
-    ads1015.SetRegister(ADS1015_CONVERSION_REG);
-    int val = ads1015.GetConversion();
-    std::cout<<"Val: "<< val << std::endl;
-}
+#define UPDATE_DELAY_MS 2
 
 /**
     Constructor for the controller. Initializes the model, view, and the ADC.
@@ -31,11 +18,9 @@ Controller::Controller() {
     model = new Model();
     view.setChartData(model->getSeries());
 
-    initAdc();
-
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(Update()));
-    timer->start(UPDATE_DELAY_MS); // 500ms timeout.
+    timer->start(UPDATE_DELAY_MS); 
 }
 
 /**
@@ -43,6 +28,14 @@ Controller::Controller() {
     point in the model series.
 */
 void Controller::Update() {
-    QPointF point = model->getSeries()->at(0);
-    model->getSeries()->replace(0, 0, point.ry() + 1);
+    static int data_point = 0;
+    static int val = 1;
+
+    model->getSeries()->replace(data_point, data_point, ads1015.GetConversion());
+
+    data_point = (data_point == DATA_SERIES_SIZE) ? 0 : data_point + 1; // Increment the data then roll over at the max.
+    if(data_point == 0)
+    {
+        val *= -1;
+    }
 }
